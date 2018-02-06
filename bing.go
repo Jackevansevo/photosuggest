@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -65,6 +66,11 @@ func queryBing(query string) ([]string, error) {
 
 	if err != nil {
 		return nil, err
+	}
+
+	// Report any server errors
+	if resp.StatusCode >= 400 {
+		return nil, errors.New("Bing: " + string(body))
 	}
 
 	urls, err := processBingResponse(body)
