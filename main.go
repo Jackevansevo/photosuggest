@@ -2,31 +2,33 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
+	"time"
 
-	"github.com/rs/cors"
+	"github.com/kelseyhightower/envconfig"
 )
 
-func fetchResults(query string, resc chan []string, errc chan error, fn func(string) ([]string, error)) {
-	urls, err := fn(query)
-	if err != nil {
-		errc <- err
-		return
-	}
-	resc <- urls
+var client = http.Client{Timeout: time.Duration(5 * time.Second)}
+
+type EnvSpec struct {
+	BING_API_KEY   string `envconfig:"BING_API_KEY" required:"true"`
+	FLICKR_API_KEY string `envconfig:"FLICKR_API_KEY" required:"true"`
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+var Env EnvSpec
 
-	// Make URL Channel
-	resc, errc := make(chan []string), make(chan error)
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 
-	queryFuncs := []func(string) ([]string, error){
+	// Make Channels
+	resc, errc := make(chan []interface{}), make(chan error)
+
+	query := r.URL.Query().Get("q")
+
+	queryFuncs := []func(string, http.Client) ([]interface{}, error){
 		queryBing,
 		queryFlickr,
 	}
-
-	query := r.URL.Query().Get("q")
 
 	if query == "" {
 		http.Error(w, "Specify query", http.StatusBadRequest)
@@ -34,22 +36,32 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, fn := range queryFuncs {
-		go fetchResults(query, resc, errc, fn)
+
+		go func(query string, resc chan []interface{},
+			errc chan error, fn func(string, http.Client) ([]interface{}, error)) {
+			results, err := fn(query, client)
+			if err != nil {
+				errc <- err
+				return
+			}
+			resc <- results
+		}(query, resc, errc, fn)
+
 	}
 
-	urls := []string{}
+	var results []interface{}
 
 	for i := 0; i < len(queryFuncs); i++ {
 		select {
 		case res := <-resc:
-			urls = append(urls, res...)
+			results = append(results, res)
 		case err := <-errc:
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 
-	js, err := json.Marshal(urls)
+	resp, err := json.Marshal(results)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -57,13 +69,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
+	w.Write(resp)
 
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", handler)
-	handler := cors.Default().Handler(mux)
-	http.ListenAndServe(":3001", handler)
+
+	// Loads API keys from environment
+	envconfig.MustProcess("", &Env)
+
+	log.Fatal(http.ListenAndServe(":3001", handler()))
+}
+
+func handler() http.Handler {
+	r := http.NewServeMux()
+	r.HandleFunc("/", indexHandler)
+	return r
 }

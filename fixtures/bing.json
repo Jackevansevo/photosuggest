@@ -1,0 +1,100 @@
+{
+	"_type": "Images",
+	"instrumentation": {},
+	"readLink": "https://api.cognitive.microsoft.com/api/v7/images/search?q=dogs",
+	"webSearchUrl": "https://www.bing.com/images/search?q=dogs&FORM=OIIARP",
+	"totalEstimatedMatches": 654,
+	"nextOffset": 39,
+	"value": [
+		{
+			"webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO&q=dogs&id=40E38BE8908DE561D632D58DBF3A97209AD16425&simid=608047386986875842",
+			"name": "File:Flickr - ggallice - Street dogs (1).jpg",
+			"thumbnailUrl": "https://tse3.mm.bing.net/th?id=OIP.q2FlKUt2T39oR6TKb-LbbAHaE7&pid=Api",
+			"datePublished": "2012-12-31T12:00:00.0000000Z",
+			"contentUrl": "http://upload.wikimedia.org/wikipedia/commons/a/a2/Flickr_-_ggallice_-_Street_dogs_%281%29.jpg",
+			"hostPageUrl": "http://commons.wikimedia.org/wiki/File:Flickr_-_ggallice_-_Street_dogs_(1).jpg",
+			"contentSize": "492147 B",
+			"encodingFormat": "jpeg",
+			"hostPageDisplayUrl": "commons.wikimedia.org/wiki/File:Flickr_-_ggallice_-_Street_dogs_(1...",
+			"width": 2900,
+			"height": 1933,
+			"thumbnail": {
+				"width": 474,
+				"height": 315
+			},
+			"imageInsightsToken": "ccid_q2FlKUt2*mid_40E38BE8908DE561D632D58DBF3A97209AD16425*simid_608047386986875842*thid_OIP.q2FlKUt2T39oR6TKb-LbbAHaE7",
+			"insightsMetadata": {
+				"recipeSourcesCount": 0,
+				"bestRepresentativeQuery": {
+					"text": "Street Dogs",
+					"displayText": "Street Dogs",
+					"webSearchUrl": "https://www.bing.com/images/search?q=Street+Dogs&id=40E38BE8908DE561D632D58DBF3A97209AD16425&FORM=IDBQDM"
+				},
+				"pagesIncludingCount": 40,
+				"availableSizesCount": 21
+			},
+			"imageId": "40E38BE8908DE561D632D58DBF3A97209AD16425",
+			"accentColor": "684836"
+		},
+		{
+			"webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO&q=dogs&id=A624ECE11C33EC16694E05E556FA0E661EBC0E19&simid=608010226958601046",
+			"name": "Daisy's Dead Air: Dissing dogs",
+			"thumbnailUrl": "https://tse2.mm.bing.net/th?id=OIP.adjRpFc_oCZcJSdrVph2MwHaFK&pid=Api",
+			"datePublished": "2011-07-10T12:00:00.0000000Z",
+			"contentUrl": "http://1.bp.blogspot.com/-eO4Bzg4yAuA/TiRKxZTB6VI/AAAAAAAADkQ/8rDy98dId8w/s1600/dogs.jpg",
+			"hostPageUrl": "http://daisysdeadair.blogspot.com/2011/07/dissing-dogs.html",
+			"contentSize": "92774 B",
+			"encodingFormat": "jpeg",
+			"hostPageDisplayUrl": "daisysdeadair.blogspot.com/2011/07/dissing-dogs.html",
+			"width": 800,
+			"height": 558,
+			"thumbnail": {
+				"width": 474,
+				"height": 330
+			},
+			"imageInsightsToken": "ccid_adjRpFc/*mid_A624ECE11C33EC16694E05E556FA0E661EBC0E19*simid_608010226958601046*thid_OIP.adjRpFc\\_oCZcJSdrVph2MwHaFK",
+			"insightsMetadata": {
+				"recipeSourcesCount": 0,
+				"bestRepresentativeQuery": {
+					"text": "Google Search Dogs",
+					"displayText": "Google Search Dogs",
+					"webSearchUrl": "https://www.bing.com/images/search?q=Google+Search+Dogs&id=A624ECE11C33EC16694E05E556FA0E661EBC0E19&FORM=IDBQDM"
+				},
+				"pagesIncludingCount": 16,
+				"availableSizesCount": 5
+			},
+			"imageId": "A624ECE11C33EC16694E05E556FA0E661EBC0E19",
+			"accentColor": "A5263A"
+		},
+		{
+			"webSearchUrl": "https://www.bing.com/images/search?view=detailv2&FORM=OIIRPO&q=dogs&id=6636B5B124DFB4C0F02E931C22B7512590AE9F27&simid=608012447520393710",
+			"name": "File:Stray dogs crosswalk.jpg",
+			"thumbnailUrl": "https://tse1.mm.bing.net/th?id=OIP.iDFu1SUIdG1Z20p7WPRfZgHaE_&pid=Api",
+			"datePublished": "2012-12-31T12:00:00.0000000Z",
+			"contentUrl": "http://upload.wikimedia.org/wikipedia/commons/4/4d/Stray_dogs_crosswalk.jpg",
+			"hostPageUrl": "http://commons.wikimedia.org/wiki/File:Stray_dogs_crosswalk.jpg",
+			"contentSize": "2868327 B",
+			"encodingFormat": "jpeg",
+			"hostPageDisplayUrl": "commons.wikimedia.org/wiki/File:Stray_dogs_crosswalk.jpg",
+			"width": 3735,
+			"height": 2520,
+			"thumbnail": {
+				"width": 474,
+				"height": 319
+			},
+			"imageInsightsToken": "ccid_iDFu1SUI*mid_6636B5B124DFB4C0F02E931C22B7512590AE9F27*simid_608012447520393710*thid_OIP.iDFu1SUIdG1Z20p7WPRfZgHaE\\_",
+			"insightsMetadata": {
+				"recipeSourcesCount": 0,
+				"bestRepresentativeQuery": {
+					"text": "Stray Dog",
+					"displayText": "Stray Dog",
+					"webSearchUrl": "https://www.bing.com/images/search?q=Stray+Dog&id=6636B5B124DFB4C0F02E931C22B7512590AE9F27&FORM=IDBQDM"
+				},
+				"pagesIncludingCount": 85,
+				"availableSizesCount": 42
+			},
+			"imageId": "6636B5B124DFB4C0F02E931C22B7512590AE9F27",
+			"accentColor": "966535"
+		}
+	]
+}

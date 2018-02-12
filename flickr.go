@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
 	"net/url"
-	"os"
 )
 
-const flickrURL = "https://www.flickr.com/services/rest/"
+var flickrURL, _ = url.Parse("https://www.flickr.com/services/rest/")
 
 type flickrPhoto struct {
 	ID     string
@@ -16,16 +17,18 @@ type flickrPhoto struct {
 	Secret string
 }
 
-type flickJSON struct {
+type flickrAPIJsonResponse struct {
 	Data struct {
 		PhotoList []flickrPhoto `json:"photo"`
 	} `json:"photos"`
 }
 
-var flickrAPIKey = os.Getenv("FLICKR_API_KEY")
+type flickrPhotoResult struct {
+	URL    string `json:"url"`
+	Source string `json:"source"`
+}
 
 var flickrParams = url.Values{
-	"api_key":        {flickrAPIKey},
 	"format":         {"json"},
 	"media":          {"photos"},
 	"method":         {"flickr.photos.search"},
@@ -40,7 +43,7 @@ func (p flickrPhoto) URL() string {
 	return fmt.Sprintf(urlFmt, p.Farm, p.Server, p.ID, p.Secret)
 }
 
-func queryFlickr(query string) ([]string, error) {
+func queryFlickr(query string, client http.Client) ([]interface{}, error) {
 
 	url, err := buildFlickURL(query)
 
@@ -48,14 +51,13 @@ func queryFlickr(query string) ([]string, error) {
 		return nil, err
 	}
 
-	resp, err := HTTPGetBytes(url)
+	resp, err := getBytes(url, client)
 
 	if err != nil {
 		return nil, err
 	}
 
 	json, err := processFlickrResponse(resp)
-
 	if err != nil {
 		return nil, err
 	}
@@ -64,32 +66,32 @@ func queryFlickr(query string) ([]string, error) {
 }
 
 func buildFlickURL(query string) (string, error) {
-	URL, err := url.Parse(flickrURL)
 
-	if err != nil {
-		return "", err
+	if query == "" {
+		return "", errors.New("Specify a query string")
 	}
 
 	flickrParams.Set("text", query)
+	flickrParams.Set("api_key", Env.FLICKR_API_KEY)
 
-	URL.RawQuery = flickrParams.Encode()
+	flickrURL.RawQuery = flickrParams.Encode()
 
-	return URL.String(), nil
+	return flickrURL.String(), nil
 }
 
-func processFlickrResponse(body []byte) ([]string, error) {
+func processFlickrResponse(body []byte) ([]interface{}, error) {
 
-	var respJSON flickJSON
+	var resp flickrAPIJsonResponse
 
-	if err := json.Unmarshal(body, &respJSON); err != nil {
+	if err := json.Unmarshal(body, &resp); err != nil {
 		return nil, err
 	}
 
-	urls := make([]string, len(respJSON.Data.PhotoList))
+	results := make([]interface{}, len(resp.Data.PhotoList))
 
-	for index, photo := range respJSON.Data.PhotoList {
-		urls[index] = photo.URL()
+	for index, photo := range resp.Data.PhotoList {
+		results[index] = flickrPhotoResult{photo.URL(), "Flickr"}
 	}
 
-	return urls, nil
+	return results, nil
 }

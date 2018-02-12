@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-// HTTPGetBytes Makes a Http Get request and returns body as bytes
-func HTTPGetBytes(url string) ([]byte, error) {
+// getBytes Makes a Http Get request and returns body as bytes
+func getBytes(url string, client http.Client) ([]byte, error) {
 
-	resp, err := http.Get(url)
+	resp, err := client.Get(url)
 
 	if err != nil {
 		return nil, err
@@ -24,11 +24,4 @@ func HTTPGetBytes(url string) ([]byte, error) {
 
 	return body, nil
 
-}
-
-func concatLists(items ...[]string) (out []string) {
-	for _, l := range items {
-		out = append(out, l...)
-	}
-	return out
 }

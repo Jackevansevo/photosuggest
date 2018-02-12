@@ -12,7 +12,7 @@
 *.out
 
 # Secrets
-.envrc
+.env
 
 # Tag files
 tags

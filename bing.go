@@ -6,37 +6,37 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 )
 
-const bingURL = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
+var bingURL, _ = url.Parse("https://api.cognitive.microsoft.com/bing/v7.0/images/search")
 
-var bingAPIKey = os.Getenv("BING_API_KEY")
-
-type bingPhoto struct {
+type bingAPIPhoto struct {
 	URL string `json:"contentUrl"`
 }
 
-type bingJSON struct {
-	PhotoList []bingPhoto `json:"value"`
+type bingAPIJsonResponse struct {
+	PhotoList []bingAPIPhoto `json:"value"`
+}
+
+type bingPhotosuggestResult struct {
+	URL    string `json:"url"`
+	Source string `json:"source"`
 }
 
 func buildBingURL(query string) (string, error) {
 
-	URL, err := url.Parse(bingURL)
-
-	if err != nil {
-		return "", nil
+	if query == "" {
+		return "", errors.New("Specify a query string")
 	}
 
 	bingParams := url.Values{"q": {query}, "license": {"ModifyCommercially"}}
 
-	URL.RawQuery = bingParams.Encode()
+	bingURL.RawQuery = bingParams.Encode()
 
-	return URL.String(), nil
+	return bingURL.String(), nil
 }
 
-func queryBing(query string) ([]string, error) {
+func queryBing(query string, client http.Client) ([]interface{}, error) {
 
 	url, err := buildBingURL(query)
 
@@ -50,9 +50,7 @@ func queryBing(query string) ([]string, error) {
 		return nil, err
 	}
 
-	client := &http.Client{}
-
-	req.Header.Set("Ocp-Apim-Subscription-Key", bingAPIKey)
+	req.Header.Set("Ocp-Apim-Subscription-Key", Env.BING_API_KEY)
 
 	resp, err := client.Do(req)
 
@@ -83,20 +81,20 @@ func queryBing(query string) ([]string, error) {
 
 }
 
-func processBingResponse(body []byte) ([]string, error) {
+func processBingResponse(body []byte) ([]interface{}, error) {
 
-	var respJSON bingJSON
+	var resp bingAPIJsonResponse
 
-	if err := json.Unmarshal(body, &respJSON); err != nil {
+	if err := json.Unmarshal(body, &resp); err != nil {
 		return nil, err
 	}
 
-	urls := make([]string, len(respJSON.PhotoList))
+	results := make([]interface{}, len(resp.PhotoList))
 
-	for index, photo := range respJSON.PhotoList {
-		urls[index] = photo.URL
+	for index, photo := range resp.PhotoList {
+		results[index] = bingPhotosuggestResult{photo.URL, "Bing"}
 	}
 
-	return urls, nil
+	return results, nil
 
 }
