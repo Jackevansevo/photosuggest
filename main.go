@@ -51,7 +51,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	var results []interface{}
 
-	for i := 0; i < len(queryFuncs); i++ {
+	for _ = range queryFuncs {
 		select {
 		case res := <-resc:
 			results = append(results, res)
