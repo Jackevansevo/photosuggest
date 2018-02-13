@@ -13,6 +13,7 @@
 
 # Secrets
 .env
+.envrc
 
 # Tag files
 tags
