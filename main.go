@@ -83,7 +83,7 @@ func main() {
 }
 
 func handler() http.Handler {
-	r := http.NewServeMux()
-	r.HandleFunc("/", indexHandler)
-	return r
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", indexHandler)
+	return mux
 }
