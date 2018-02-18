@@ -54,7 +54,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	for _ = range queryFuncs {
 		select {
 		case res := <-resc:
-			results = append(results, res)
+			results = append(results, res...)
 		case err := <-errc:
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
