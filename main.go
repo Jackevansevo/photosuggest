@@ -49,7 +49,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	var results []interface{}
+	results := make([]interface{}, 0)
 
 	for _ = range queryFuncs {
 		select {
