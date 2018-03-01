@@ -36,6 +36,7 @@ var flickrParams = url.Values{
 	"per_page":       {"30"},
 	"safe_search":    {"1"},
 	"sort":           {"relevance"},
+	"content_type":   {"1"},
 }
 
 func (p flickrPhoto) URL() string {
