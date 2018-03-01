@@ -79,7 +79,7 @@ func main() {
 	// Loads API keys from environment
 	envconfig.MustProcess("", &Env)
 
-	log.Fatal(http.ListenAndServe(":3001", handler()))
+	log.Fatal(http.ListenAndServe(":8000", handler()))
 }
 
 func handler() http.Handler {
