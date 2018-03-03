@@ -22,7 +22,7 @@ func TestMissingAPIKeys(t *testing.T) {
 	defer func() {
 		if r := recover(); r != nil {
 
-			expected_err := "required key BING_API_KEY missing value"
+			expectedErr := "required key BING_API_KEY missing value"
 
 			// Cast recovery type to error type
 			err, ok := r.(error)
@@ -30,8 +30,8 @@ func TestMissingAPIKeys(t *testing.T) {
 				t.Errorf("pkg: %v", r)
 			}
 
-			if err.Error() != expected_err {
-				t.Errorf("Expected: %v, got: %v", expected_err, err)
+			if err.Error() != expectedErr {
+				t.Errorf("Expected: %v, got: %v", expectedErr, err)
 			}
 		}
 	}()
