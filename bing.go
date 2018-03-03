@@ -58,8 +58,6 @@ func queryBing(query string, client http.Client) ([]interface{}, error) {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
-
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
@@ -72,8 +70,11 @@ func queryBing(query string, client http.Client) ([]interface{}, error) {
 	}
 
 	urls, err := processBingResponse(body)
-
 	if err != nil {
+		return nil, err
+	}
+
+	if err = resp.Body.Close(); err != nil {
 		return nil, err
 	}
 
