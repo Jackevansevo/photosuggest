@@ -67,10 +67,10 @@ func TestQueryWithMissingParam(t *testing.T) {
 		t.Fatalf("could not read response: %v", err)
 	}
 
-	expected_err := "Specify query"
+	expectedErr := "Specify query"
 
-	if strings.TrimSpace(string(b)) != expected_err {
-		t.Errorf("expected body to contain: %v, got: %v", expected_err, string(b))
+	if strings.TrimSpace(string(b)) != expectedErr {
+		t.Errorf("expected body to contain: %v, got: %v", expectedErr, string(b))
 	}
 
 }
