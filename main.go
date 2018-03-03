@@ -29,16 +29,32 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// Make Channels
 	resc, errc := make(chan []interface{}), make(chan error)
 
-	query := r.URL.Query().Get("q")
+	q := r.URL.Query()
 
-	queryFuncs := []func(string, http.Client) ([]interface{}, error){
-		queryBing,
-		queryFlickr,
-	}
+	query := q.Get("q")
 
 	if query == "" {
 		http.Error(w, "Specify query", http.StatusBadRequest)
 		return
+	}
+
+	// Parse the sources from the url query params
+	sources := q.Get("sources")
+	queryFuncs := make([]func(string, http.Client) ([]interface{}, error), 0)
+
+	if sources != "" {
+
+		for _, source := range strings.Split(sources, " ") {
+			fn, ok := sourceFuncs[source]
+			if ok {
+				queryFuncs = append(queryFuncs, fn)
+			}
+		}
+	} else {
+		// Use all sources by default
+		for _, fn := range sourceFuncs {
+			queryFuncs = append(queryFuncs, fn)
+		}
 	}
 
 	for _, fn := range queryFuncs {
