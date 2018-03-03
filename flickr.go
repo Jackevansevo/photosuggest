@@ -73,7 +73,7 @@ func buildFlickURL(query string) (string, error) {
 	}
 
 	flickrParams.Set("text", query)
-	flickrParams.Set("api_key", Env.FLICKR_API_KEY)
+	flickrParams.Set("api_key", Env.FlickrAPIKey)
 
 	flickrURL.RawQuery = flickrParams.Encode()
 
