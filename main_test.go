@@ -42,7 +42,10 @@ func TestMissingAPIKeys(t *testing.T) {
 	for _, pair := range env {
 		splits := strings.Split(pair, "=")
 		key, val := splits[0], splits[1]
-		os.Setenv(key, val)
+		err := os.Setenv(key, val)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 	}
 
 }
