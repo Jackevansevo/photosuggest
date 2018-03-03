@@ -14,11 +14,13 @@ func getBytes(url string, client http.Client) ([]byte, error) {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
-
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
+		return nil, err
+	}
+
+	if err = resp.Body.Close(); err != nil {
 		return nil, err
 	}
 
