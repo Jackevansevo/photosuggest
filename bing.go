@@ -50,7 +50,7 @@ func queryBing(query string, client http.Client) ([]interface{}, error) {
 		return nil, err
 	}
 
-	req.Header.Set("Ocp-Apim-Subscription-Key", Env.BING_API_KEY)
+	req.Header.Set("Ocp-Apim-Subscription-Key", Env.BingAPIKey)
 
 	resp, err := client.Do(req)
 
