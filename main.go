@@ -11,12 +11,18 @@ import (
 
 var client = http.Client{Timeout: time.Duration(5 * time.Second)}
 
-type EnvSpec struct {
-	BING_API_KEY   string `envconfig:"BING_API_KEY" required:"true"`
-	FLICKR_API_KEY string `envconfig:"FLICKR_API_KEY" required:"true"`
+type envSpec struct {
+	BingAPIKey   string `envconfig:"BING_API_KEY" required:"true"`
+	FlickrAPIKey string `envconfig:"FLICKR_API_KEY" required:"true"`
 }
 
-var Env EnvSpec
+// Env contains environment variables
+var Env envSpec
+
+var sourceFuncs = map[string]func(string, http.Client) ([]interface{}, error){
+	"bing":   queryBing,
+	"flickr": queryFlickr,
+}
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 
